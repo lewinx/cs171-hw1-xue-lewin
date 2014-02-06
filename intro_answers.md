@@ -1,0 +1,5 @@
+1.  We can add a column that includes the minimum, maximum, mean, median, etc. as an additional table or as some summary statistics. Furthermore we can add interaction to the table through the form of sorting via decreasing or increasing unemployment rates, including visualizations such as bar charts or a map of the united states with an associated heat map. 
+
+2. This is the first table from the New York Times shows the percent of delays at airports that are unreported. Although the bar graphs are a bit misleading in that the writer sorted by percent of delays unreported as a fraction of total delays, we can see the bar graph does a better job to visualize the numbers in the table.
+
+![Alt text](http://graphics8.nytimes.com/newsgraphics/2014/02/03/delaysgrpahic/cf6a3c34a828c73f64fbb67797c5e268fc57df93/webDELAYS-artboard_1.png)
