@@ -1,6 +1,6 @@
 #Problem 1 Answers
 
-1. The <code>colspan</code> attribute of the <code><th></code> node determines how many columns the table header should span. In this case we have 3 columns and so we mark that the table header will go across all 3 of these columns. If we reduce the colspan argument to just 1, the header will appear only on top of the first header, but not the rest.
+1. The <code>colspan</code> attribute of the <code> th </code> node determines how many columns the table header should span. In this case we have 3 columns and so we mark that the table header will go across all 3 of these columns. If we reduce the colspan argument to just 1, the header will appear only on top of the first header, but not the rest.
 
 2.
 
