@@ -1,4 +1,6 @@
-1.  We can add a column that includes the minimum, maximum, mean, median, etc. as an additional table or as some summary statistics. Furthermore we can add interaction to the table through the form of sorting via decreasing or increasing unemployment rates, including visualizations such as bar charts or a map of the united states with an associated heat map. 
+# Introductory Questions
+
+1.  We can add a column that includes the minimum, maximum, mean, median, etc. as an additional table or as some summary statistics. Furthermore we can add interaction to the table through the form of sorting via decreasing or increasing unemployment rates, or alphabetically, including visualizations such as bar charts or a map of the united states with an associated heat map. Finally we can add color to indicate various rates of unemployment
 
 2. This is the first table from the Bureau of Labor Statistics shows the number of laborers per square mile in major disaster areas after Hurricane Sandy. Although the table is also not interactive, it does a better job of adding on the visualization of a bar chart to give the user a better idea of the differences in labor per square mile rather than just displaying the numbers. It's also sorted from maximum to minimum, giving the user easy access to those two pieces of data.
 

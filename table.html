@@ -6,31 +6,207 @@
 
   <style type="text/css">
   /* YOUR CSS */
+  #unemployment_table > caption {
+  caption-side: top;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
+  border-collapse: collapse;
+  }
+
+  #unemployment_table, th, td {
+    border: 1px solid black;
+    border-spacing: 0px; 
+  }
+
+  #table_title {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    color:  #183061;
+    font-size: 180%;
+    font: 13px;
+    font-weight: normal;
+    margin-bottom:  10px;
+    line-height: 1.22em;
+  }
+
+  .highlight {
+    background-color: #ffff7e;
+  }
+
+  .mouse_asc {
+    cursor: s-resize;
+  }
+
+  .mouse_desc {
+    cursor: n-resize;
+  }
+
+
   </style>
 </head>
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script>
-  d3.tsv("unemp_states_us_nov_2013.tsv", function(error, data){
+  d3.select("body").append("h1").html("Unemployment Rates for States").attr("id", "table_title")
 
-      var table = d3.select("body").append("table"),
-      tbody = table.append("tbody");
+  d3.text("unemp_states_us_nov_2013.tsv", function(unparsedData){
+    var table = d3.select("body").append("table"),
+    tbody = table.append("tbody");
 
-      var rows = tbody.selectAll("tr")
-      .data(data)
-      .enter()
-      .append("tr");
+    table.attr("id", "unemployment_table")
 
-      var cells = rows.selectAll("td")
-      .data(function(row) {
-        return d3.range(Object.keys(row).length).map(function(column, i) {
-          return row[Object.keys(row)[i]];
-          });
-        })
-      .enter()
-      .append("td")
-      .text(function(d) { return d; });
-      });
+    // Parses the TSV and slices it between header data and cell data
+    var parsedTSV = d3.tsv.parseRows(unparsedData);
+    var headers = parsedTSV[0]
+    var rest_tsv = parsedTSV.slice(-1 * parsedTSV.length + 1)
+
+    // Sets the rows      
+    var rows = tbody.selectAll("tr")
+    .data(rest_tsv)
+    .enter().append("tr")
+    .attr("bgcolor", function(d, i){
+      if (i % 2 === 1){ return '#fff' }
+      else{ return '#d3d3d3' }
+    })
+
+
+    // Sorts the rows by the 2nd column
+    rows.sort(function(a, b) {
+      if (a[2] - b[2] == 0) { return d3.ascending(a[1], b[1]) }
+      else { return a[2] - b[2] }
+    })
+
+    // Populates the Cells 
+    var cells = rows.selectAll("td")
+    .data(function(row) {
+      return d3.range(Object.keys(row).length).map(function(column, i) {
+        return row[Object.keys(row)[i]];
+        });
+      })
+    .enter()
+    .append("td")
+    .text(function(d) { return d; })
+
+    //Does the Coloring of the rate column
+    var rate_values = []
+    for (var i = 0; i < rows[0].length ; i++) {
+      rate_values[i] = parseFloat(rows[0][i].cells[2].innerHTML)
+    }
+    var color = d3.scale.linear()
+      .domain([Math.min.apply(null, rate_values), Math.max.apply(null, rate_values)])
+      .interpolate(d3.interpolateRgb)
+      .range(["red", "#ffe4e1"])
+
+    cells.attr('bgcolor', function(d,i){
+      if ( i == 2){
+        return color(d)
+      }
+    })
+
+    // Does the highlighting
+    rows.on("mouseover", function(){
+      d3.select(this).attr('class', 'highlight')
+    })
+    .on("mouseout", function(){
+        d3.select(this).attr('class', '');
+    })
+
+    cells.on('mouseover', function(d,i){
+      cells.attr('class', function(d2, idx2){
+        if(idx2 == i){
+          return 'highlight'
+        }
+        else{
+          return ''
+        }
+      })
+    })
+    .on('mouseout', function(d,i){
+      cells.attr('class', function(d2, idx2){
+        return ''
+      })
+    })
+
+    //adds the bar chart row
+    rows.insert("td").append("svg")
+     .attr("width", 100)
+     .attr("height", 20)
+     .append("rect")
+     .attr("x", 10)
+     .attr('y', 6)
+     .attr("height", 10)
+     .attr("width", function(d) { return parseFloat(d[0]); })
+     .style('fill', '#05b8cc');
+
+    //Creates the headers
+    theaders = table.append("thead")
+    headers.push('Chart')
+    var column_headers = theaders.selectAll("th")
+    .data(headers)
+    .enter()
+    .append('th')
+    .text(function(h) {return h})
+
+    //appends the caption
+    tcaption = table.append("caption").html("Unemployment Rates for States <br> Monthly Rankings <br> Seasonally Adjusted <br> Dec. 2013 <sup>p</sup>")
+
+    //deals with the on click-interactive portion and sorting of the table
+    var desc = [true, -1]
+
+    column_headers.on('click', function(d,i){
+      //adds a col_idx variable which is the column index we will sort on. Used only if the chart header is clicked on for ease of sorting
+      var col_idx = i
+      if (d == 'Chart'){
+        col_idx = i-1
+      }
+      // If we haven't just clicked on this header sort ascending
+      if(desc[0] || i != desc[1]){
+        if(col_idx == 1){
+          tbody.selectAll("tr").sort(function(a, b) {
+            return d3.ascending(a[col_idx], b[col_idx]);
+          })
+        }
+        else{
+          tbody.selectAll("tr").sort(function(a, b) {
+            if (a[col_idx] - b[col_idx] == 0) { return d3.ascending(a[1], b[1]) }
+            else { return a[col_idx] - b[col_idx] }
+          })
+        }
+        desc[0] = false
+        desc[1] = i
+        column_headers.attr('class', 'mouse_asc')
+        d3.select(this).attr('class', 'mouse_desc')
+      }
+      // Otherwise sort descending
+      else{
+        if(col_idx == 1){
+          tbody.selectAll("tr").sort(function(a, b) {
+            return d3.descending(a[col_idx], b[col_idx]);
+          })
+        }
+        else{
+          tbody.selectAll("tr").sort(function(a, b) {
+            if (b[col_idx] - a[col_idx] == 0) { return d3.descending(a[col_idx], b[col_idx]) }
+            else { return b[col_idx] - a[col_idx] }
+          })
+        }
+        desc[0] = true
+        column_headers.attr('class', 'mouse_asc')
+      }
+      //re-zebra stripe the rows.
+      tbody.selectAll('tr')
+      .attr('bgcolor', function(d,i){
+        if (i % 2) { return '#fff'}
+        else {return '#d3d3d3'}
+      })
+    })
+
+  })
+
   </script>
+
+
+
+
 </body>
 </html>
