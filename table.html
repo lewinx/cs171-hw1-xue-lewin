@@ -95,7 +95,7 @@
     var color = d3.scale.linear()
       .domain([Math.min.apply(null, rate_values), Math.max.apply(null, rate_values)])
       .interpolate(d3.interpolateRgb)
-      .range(["red", "#ffe4e1"])
+      .range(["orangered", "silver"])
 
     cells.attr('bgcolor', function(d,i){
       if ( i == 2){
