@@ -2,16 +2,6 @@
 
 1. The <code>colspan</code> attribute of the <code> th </code> node determines how many columns the table header should span. In this case we have 3 columns and so we mark that the table header will go across all 3 of these columns. If we reduce the colspan argument to just 1, the header will appear only on top of the first header, but not the rest.
 
-2. The first style applied to <code>th</code> is aligning the rank to the center of the the cell. This is done in HTML style with the equivalent CSS of text-align.
-
-We also have CSS padding of 3px, which pads 3 "pixels" on each side.
-
-line-height of 1.23 em or 1.23*font size is the height of the row.
-
-borders-collapse: true, implies that the borders of the table are collapsed when they can be.
-
-font: 13 px Tahoma ... , sets the font size and type.
-
-display: table-cell, displays the elements as table cell type.
+2. The first style applied to <code>th</code> is aligning the rank to the center of the the cell. This is done in HTML style with the equivalent CSS of text-align. We also have CSS padding of 3px, which pads 3 "pixels" on each side. line-height of 1.23 em or 1.23*font size is the height of the row. borders-collapse: true, implies that the borders of the table are collapsed when they can be. font: 13 px Tahoma ... , sets the font size and type. display: table-cell, displays the elements as table cell type.
 
 3. The DOM inspector will highlight the regions that are in questions as you browse overthem. Furthermore we can edit the html/javascript/CSS and note the changes it makes to the webpage. For example I can change the colspan variable described above and note the changes as the webpage is re-rendered. However the entire HTML page source is useful as we can see the structure more clearly in its entirity. The HTML source code is usually better organized than the DOM in terms of being easier to read, and easier to see entire blocks that are seperated off from each other
