@@ -10,4 +10,6 @@ This second represents the tabular data using a heat map. This graph comes from 
 
 ![Alt text](http://cdn.theatlanticcities.com/img/upload/2013/07/02/SF%20romantic.png)
 
-Finally we 
+Finally we have this pricing model from squarespace. The actual website is interactive with a popup box of relevant information on mouse over. Furthermore the very clear display of the most important information (price), mixed with a very sleak minimalistic white and black design does well to draw the eye to the table presented in the table.
+
+![Alt text](http://www.webdesigndev.com/wp-content/uploads/2009/08/49.jpg)
