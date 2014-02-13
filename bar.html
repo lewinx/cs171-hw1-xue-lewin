@@ -71,12 +71,14 @@
       .attr('name', 'order')
       .attr('value', function(d){return d})
 
+
     d3.tsv("unemp_states_us_nov_2013.tsv", function(data) {
 
       var max = d3.max(data, function(d) { return d.Rate; } );
       var min = 0;
       var color_min = d3.min(data, function(d) { return d.Rate; } );
 
+      //Creates the color scale
       var color = d3.scale.linear()
         .domain([color_min, max])
         .interpolate(d3.interpolateRgb)
@@ -108,28 +110,15 @@
       
 
       groups.append("text")
-      //.attr('text-anchor', 'right')
       .attr("x", function(d) { return xScale(d.Rate) - 20; })
       .attr("y", function(d) { return bar_height/2 + 3; })
       .attr("fill" , "#fff")
       .text(function(d) { return d.Rate })
 
-
-      //alert(groups[0].length)
-      //Does the Coloring of the rate column
-      /*var rate_values = []
-      for (var i = 0; i < groups[0].length ; i++) {
-        alert(groups[0][i])
-        //rate_values[i] = parseFloat(groups[0][i].rank[2].innerHTML)
-      }*/
-
-
-
-      // Reordering
+      // Reordering code, allows for the sort as well as the movements
       var asc = [true, null]
       function reorder(val){
         if (asc[0] || val != asc[1] ){
-          //if(true){
           if (val == 'State'){
             data.sort(function(a, b) {
               return d3.ascending(a.State, b.State);
@@ -175,10 +164,7 @@
       .attr("transform", function(d, i) {
         return "translate( "+ 0 + ", "+  yScale(d.State) +" )"; })
       })
-
     })
-
-
   </script>
 </body>
 </html>
